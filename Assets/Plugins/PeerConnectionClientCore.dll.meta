@@ -1,5 +1,7 @@
 fileFormatVersion: 2
-guid: b274dfcee1f7b6b4e992dd3f5aed5986
+guid: 7d308c7d3dc4404449c806979a687023
+timeCreated: 1533115627
+licenseType: Free
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -18,7 +20,6 @@ PluginImporter:
         Exclude Linux64: 1
         Exclude LinuxUniversal: 1
         Exclude OSXUniversal: 1
-        Exclude WebGL: 1
         Exclude Win: 1
         Exclude Win64: 1
         Exclude WindowsStoreApps: 0
@@ -89,9 +90,9 @@ PluginImporter:
       enabled: 1
       settings:
         CPU: AnyCPU
-        DontProcess: true
+        DontProcess: True
         PlaceholderPath: 
-        SDK: UWP
+        SDK: AnySDK
         ScriptingBackend: AnyScriptingBackend
   userData: 
   assetBundleName: 

@@ -18,20 +18,32 @@ using Windows.ApplicationModel.Core;
 public class ControlScript : MonoBehaviour
 {
     public static ControlScript Instance { get; private set; }
+//#if !UNITY_EDITOR
+//    public delegate void HealthStatsCallback(Conductor.PeerConnectionHealthStats obj);
+//    public event HealthStatsCallback onHealthStatsArrived;
+//#endif
+    public uint LocalTextureWidth = 400;
+    public uint LocalTextureHeight = 300;
+    public uint RemoteTextureWidth = 400;
+    public uint RemoteTextureHeight = 300;
 
-    public uint LocalTextureWidth = 160;
-    public uint LocalTextureHeight = 120;
-    public uint RemoteTextureWidth = 640;
-    public uint RemoteTextureHeight = 480;
-    
-    public RawImage LocalVideoImage;
-    public RawImage RemoteVideoImage;
+    public Renderer LocalVideoImage;
+    public Renderer RemoteVideoImage;
+
+    //public RawImage LocalVideoImage;
+    //public RawImage RemoteVideoImage;
 
     public InputField ServerAddressInputField;
     public Button ConnectButton;
     public Button CallButton;
+    public Text serverStatus;
     public RectTransform PeerContent;
     public GameObject TextItemPreftab;
+
+    //public Text ReceivedBytes;
+    //public Text ReceivedKpbs;
+    //public Text SentBytes;
+    //public Text SentKbps;
 
     private enum Status
     {
@@ -72,8 +84,9 @@ public class ControlScript : MonoBehaviour
 
     void Awake()
     {
+        
     }
-    
+
     void Start()
     {
         Instance = this;
@@ -82,6 +95,7 @@ public class ControlScript : MonoBehaviour
         Conductor.Instance.Initialized += Conductor_Initialized;
         Conductor.Instance.Initialize(CoreApplication.MainView.CoreWindow.Dispatcher);
         Conductor.Instance.EnableLogging(Conductor.LogLevel.Verbose);
+        //Conductor.Instance.PeerConnectionStatsEnabled = true;
 #endif
         ServerAddressInputField.text = "192.168.1.163";
     }
@@ -89,27 +103,29 @@ public class ControlScript : MonoBehaviour
     private void OnEnable()
     {
         {
-            Plugin.CreateLocalMediaPlayback();
-            IntPtr nativeTex = IntPtr.Zero;
-            Plugin.GetLocalPrimaryTexture(LocalTextureWidth, LocalTextureHeight, out nativeTex);
-            var primaryPlaybackTexture = Texture2D.CreateExternalTexture((int)LocalTextureWidth, (int)LocalTextureHeight, TextureFormat.BGRA32, false, false, nativeTex);
-            LocalVideoImage.texture = primaryPlaybackTexture;
+                Debug.Log("Debug render Local texture");
+                Plugin.CreateLocalMediaPlayback();
+                IntPtr nativeTex = IntPtr.Zero;
+                Plugin.GetLocalPrimaryTexture(LocalTextureWidth, LocalTextureHeight, out nativeTex);
+                var primaryPlaybackTexture = Texture2D.CreateExternalTexture((int)LocalTextureWidth, (int)LocalTextureHeight, TextureFormat.BGRA32, false, false, nativeTex);
+                LocalVideoImage.material.mainTexture = primaryPlaybackTexture;
         }
 
         {
-            Plugin.CreateRemoteMediaPlayback();
-            IntPtr nativeTex = IntPtr.Zero;
-            Plugin.GetRemotePrimaryTexture(RemoteTextureWidth, RemoteTextureHeight, out nativeTex);
-            var primaryPlaybackTexture = Texture2D.CreateExternalTexture((int)RemoteTextureWidth, (int)RemoteTextureHeight, TextureFormat.BGRA32, false, false, nativeTex);
-            RemoteVideoImage.texture = primaryPlaybackTexture;
+                Debug.Log("Debug render Remote texture");
+                Plugin.CreateRemoteMediaPlayback();
+                IntPtr nativeTex = IntPtr.Zero;
+                Plugin.GetRemotePrimaryTexture(RemoteTextureWidth, RemoteTextureHeight, out nativeTex);
+                var primaryPlaybackTexture = Texture2D.CreateExternalTexture((int)RemoteTextureWidth, (int)RemoteTextureHeight, TextureFormat.BGRA32, false, false, nativeTex);
+                RemoteVideoImage.material.mainTexture = primaryPlaybackTexture;
         }
     }
 
     private void OnDisable()
     {
-        LocalVideoImage.texture = null;
+        //LocalVideoImage.material.mainTexture = null;
         Plugin.ReleaseLocalMediaPlayback();
-        RemoteVideoImage.texture = null;
+        //RemoteVideoImage.material.mainTexture = null;
         Plugin.ReleaseRemoteMediaPlayback();
     }
 
@@ -191,6 +207,7 @@ public class ControlScript : MonoBehaviour
                         {
                             ConnectButton.GetComponentInChildren<Text>().text = "Connect";
                             CallButton.GetComponentInChildren<Text>().text = "Call";
+                            serverStatus.text = "Not Connected";
                         }
                         break;
                     case Status.Connected:
@@ -198,6 +215,7 @@ public class ControlScript : MonoBehaviour
                         {
                             ConnectButton.GetComponentInChildren<Text>().text = "Disconnect";
                             CallButton.GetComponentInChildren<Text>().text = "Call";
+                            serverStatus.text = "Connected";
                         }
                         break;
                     case Status.InCall:
@@ -205,6 +223,7 @@ public class ControlScript : MonoBehaviour
                         {
                             ConnectButton.GetComponentInChildren<Text>().text = "Disconnect";
                             CallButton.GetComponentInChildren<Text>().text = "Hang Up";
+                            serverStatus.text = "In Call";
                         }
                         break;
                     default:
@@ -268,7 +287,6 @@ public class ControlScript : MonoBehaviour
 
     public void OnConnectClick()
     {
-        Debug.Log("OnConnectClick");
 #if !UNITY_EDITOR
         lock (this)
         {
@@ -279,8 +297,6 @@ public class ControlScript : MonoBehaviour
                     Conductor.Instance.StartLogin(ServerAddressInputField.text, "8888");
                 }).Start();
                 status = Status.Connecting;
-                Debug.Log(ServerAddressInputField.text);
-                Debug.Log(status);
             }
             else if (status == Status.Connected)
             {
@@ -303,7 +319,6 @@ public class ControlScript : MonoBehaviour
 
     public void OnCallClick()
     {
-        Debug.Log("OnCallClick");
 #if !UNITY_EDITOR
         lock (this)
         {
@@ -470,31 +485,39 @@ public class ControlScript : MonoBehaviour
         Conductor.Instance.OnAddRemoteStream += Conductor_OnAddRemoteStream;
         Conductor.Instance.OnRemoveRemoteStream += Conductor_OnRemoveRemoteStream;
         Conductor.Instance.OnAddLocalStream += Conductor_OnAddLocalStream;
+        //onHealthStatsArrived += (Conductor.PeerConnectionHealthStats obj) =>
+        //{
+        //    ReceivedBytes.text = obj.ReceivedBytes.ToString();
+        //    ReceivedKpbs.text = obj.ReceivedKpbs.ToString();
+        //    SentBytes.text = obj.SentBytes.ToString();
+        //    SentKbps.text = obj.SentKbps.ToString();
+        //};
+
 
         // Connected to a peer event handler
         Conductor.Instance.OnPeerConnectionCreated += () =>
-        {
-            var task = RunOnUiThread(() =>
             {
-                lock (this)
+                var task = RunOnUiThread(() =>
                 {
-                    if (status == Status.Calling)
+                    lock (this)
                     {
-                        status = Status.InCall;
-                        commandQueue.Add(new Command { type = CommandType.SetInCall });
+                        if (status == Status.Calling)
+                        {
+                            status = Status.InCall;
+                            commandQueue.Add(new Command { type = CommandType.SetInCall });
+                        }
+                        else if (status == Status.Connected)
+                        {
+                            status = Status.InCall;
+                            commandQueue.Add(new Command { type = CommandType.SetInCall });
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("Conductor.OnPeerConnectionCreated() - wrong status - " + status);
+                        }
                     }
-                    else if (status == Status.Connected)
-                    {
-                        status = Status.InCall;
-                        commandQueue.Add(new Command { type = CommandType.SetInCall });
-                    }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine("Conductor.OnPeerConnectionCreated() - wrong status - " + status);
-                    }
-                }
-            });
-        };
+                });
+            };
 
         // Connection between the current user and a peer is closed event handler
         Conductor.Instance.OnPeerConnectionClosed += () =>
@@ -551,7 +574,7 @@ public class ControlScript : MonoBehaviour
 
         uint preferredWidth = 896;
         uint preferredHeght = 504;
-        uint preferredFrameRate = 15;
+        uint preferredFrameRate = 60;
         uint minSizeDiff = uint.MaxValue;
         Conductor.CaptureCapability selectedCapability = null;
         var videoDeviceList = Conductor.Instance.GetVideoCaptureDevices();
@@ -598,7 +621,14 @@ public class ControlScript : MonoBehaviour
                         source = Conductor.Instance.CreateRemoteMediaStreamSource("H264");
                     else
                         source = Conductor.Instance.CreateRemoteMediaStreamSource("I420");
-                    Plugin.LoadRemoteMediaStreamSource((MediaStreamSource)source);
+                    try
+                    {
+                        Plugin.LoadRemoteMediaStreamSource((MediaStreamSource)source);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Log(ex.Message);
+                    }
                 }
                 else if (status == Status.Connected)
                 {
@@ -607,7 +637,14 @@ public class ControlScript : MonoBehaviour
                         source = Conductor.Instance.CreateRemoteMediaStreamSource("H264");
                     else
                         source = Conductor.Instance.CreateRemoteMediaStreamSource("I420");
-                    Plugin.LoadRemoteMediaStreamSource((MediaStreamSource)source);
+                    try
+                    {
+                        Plugin.LoadRemoteMediaStreamSource((MediaStreamSource)source);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Log(ex.Message);
+                    }
                 }
                 else
                 {
