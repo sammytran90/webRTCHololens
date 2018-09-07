@@ -215,6 +215,53 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1001 &142793332
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4543495872665798, guid: f46f9eddea7bd4d4e813283cdc60cb96, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543495872665798, guid: f46f9eddea7bd4d4e813283cdc60cb96, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543495872665798, guid: f46f9eddea7bd4d4e813283cdc60cb96, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543495872665798, guid: f46f9eddea7bd4d4e813283cdc60cb96, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543495872665798, guid: f46f9eddea7bd4d4e813283cdc60cb96, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543495872665798, guid: f46f9eddea7bd4d4e813283cdc60cb96, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543495872665798, guid: f46f9eddea7bd4d4e813283cdc60cb96, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543495872665798, guid: f46f9eddea7bd4d4e813283cdc60cb96, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20398397884145480, guid: f46f9eddea7bd4d4e813283cdc60cb96,
+        type: 2}
+      propertyPath: field of view
+      value: 30
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: f46f9eddea7bd4d4e813283cdc60cb96, type: 2}
+  m_IsPrefabParent: 0
 --- !u!114 &153010417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +424,11 @@ Prefab:
     - target: {fileID: 4000013298573622, guid: 2ed75ffdf9031c94e8bce4b3d17b9928, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011154029958, guid: 2ed75ffdf9031c94e8bce4b3d17b9928,
+        type: 2}
+      propertyPath: drawVisualMeshes
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2ed75ffdf9031c94e8bce4b3d17b9928, type: 2}
@@ -707,7 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356d617d13e13004fa6e4cbfc792d44b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 2083769797}
+  gameObject: {fileID: 1066610737}
 --- !u!1 &526227676
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,10 +792,16 @@ MonoBehaviour:
   PersistentKeywords: 1
   RecognizerStart: 0
   Keywords:
-  - Keyword: start
+  - Keyword: one
     KeyCode: 9
   - Keyword: out
     KeyCode: 46
+  - Keyword: two
+    KeyCode: 47
+  - Keyword: connect
+    KeyCode: 49
+  - Keyword: call
+    KeyCode: 50
   recognitionConfidenceLevel: 1
 --- !u!114 &526227678
 MonoBehaviour:
@@ -757,7 +815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Keywords:
-  - Keyword: start
+  - Keyword: one
     Response:
       m_PersistentCalls:
         m_Calls:
@@ -780,6 +838,57 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 526227680}
           m_MethodName: endDrawTest
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - Keyword: two
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 526227680}
+          m_MethodName: detroyAllInk
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - Keyword: connect
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1520532880}
+          m_MethodName: OnConnectClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - Keyword: call
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1520532880}
+          m_MethodName: OnCallClick
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -818,7 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursor: {fileID: 1407108056}
-  drawItem: {fileID: 1692352723500558, guid: 5d6a221a25563364590f8c12cf0be1bf, type: 2}
+  pen: {fileID: 1504572954076956, guid: 5d6a221a25563364590f8c12cf0be1bf, type: 2}
   textMesh: {fileID: 1361272670}
 --- !u!1 &550028339
 GameObject:
@@ -1110,7 +1219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356d617d13e13004fa6e4cbfc792d44b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 2083769797}
+  gameObject: {fileID: 1066610737}
 --- !u!1 &659764953
 GameObject:
   m_ObjectHideFlags: 0
@@ -2141,6 +2250,23 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!1 &1066610737 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1208988342737728, guid: f46f9eddea7bd4d4e813283cdc60cb96,
+    type: 2}
+  m_PrefabInternal: {fileID: 142793332}
+--- !u!114 &1066610738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1066610737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda703652e4c82b43b61dedc50c194a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
 --- !u!1 &1102121050
 GameObject:
   m_ObjectHideFlags: 0
@@ -2445,7 +2571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356d617d13e13004fa6e4cbfc792d44b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 2083769797}
+  gameObject: {fileID: 1066610737}
 --- !u!1 &1293848506
 GameObject:
   m_ObjectHideFlags: 0
@@ -2733,53 +2859,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1398542004
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4000010560871102, guid: d379ed0a5618c9f479f58bd83a2d0ad3, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010560871102, guid: d379ed0a5618c9f479f58bd83a2d0ad3, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010560871102, guid: d379ed0a5618c9f479f58bd83a2d0ad3, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010560871102, guid: d379ed0a5618c9f479f58bd83a2d0ad3, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010560871102, guid: d379ed0a5618c9f479f58bd83a2d0ad3, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010560871102, guid: d379ed0a5618c9f479f58bd83a2d0ad3, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010560871102, guid: d379ed0a5618c9f479f58bd83a2d0ad3, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010560871102, guid: d379ed0a5618c9f479f58bd83a2d0ad3, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20000013304850028, guid: d379ed0a5618c9f479f58bd83a2d0ad3,
-        type: 2}
-      propertyPath: field of view
-      value: 25
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: d379ed0a5618c9f479f58bd83a2d0ad3, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &1407108055
 Prefab:
   m_ObjectHideFlags: 0
@@ -4123,8 +4202,3 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2079407703}
---- !u!1 &2083769797 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000011021619270, guid: d379ed0a5618c9f479f58bd83a2d0ad3,
-    type: 2}
-  m_PrefabInternal: {fileID: 1398542004}

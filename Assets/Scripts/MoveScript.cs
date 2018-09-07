@@ -33,7 +33,7 @@ public class MoveScript : MonoBehaviour, IManipulationHandler, IInputClickHandle
     {
         InputManager.Instance.PushModalInputHandler(gameObject);
         lastPosition = transform.position;
-        Debug.Log("X " + lastPosition.x + " Y " + lastPosition.y + " Z " + lastPosition.z + " X1 " + lastPosition.x + " Y1" + lastPosition.y + " Z1 " + lastPosition.z);
+        //Debug.Log("X " + lastPosition.x + " Y " + lastPosition.y + " Z " + lastPosition.z + " X1 " + lastPosition.x + " Y1" + lastPosition.y + " Z1 " + lastPosition.z);
 
     }
 
@@ -68,12 +68,12 @@ public class MoveScript : MonoBehaviour, IManipulationHandler, IInputClickHandle
 
             transform.position = Vector3.Lerp(transform.position, targetPosition, DragSpeed);
 
-            GameObject MyObject = Resources.Load("Line") as GameObject;
-            GameObject go = Instantiate(MyObject) as GameObject;
-            go.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            go.transform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
+            //GameObject MyObject = Resources.Load("Line") as GameObject;
+            //GameObject go = Instantiate(MyObject) as GameObject;
+            //go.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            //go.transform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
 
-             Debug.Log("X "+ targetPosition.x+" Y "+targetPosition.y+ " Z "+ targetPosition.z +" X1 "+ targetPosition.x+" Y1"+ targetPosition.y+" Z1 "+ targetPosition.z);
+             //Debug.Log("X "+ targetPosition.x+" Y "+targetPosition.y+ " Z "+ targetPosition.z +" X1 "+ targetPosition.x+" Y1"+ targetPosition.y+" Z1 "+ targetPosition.z);
 
         }
     }
